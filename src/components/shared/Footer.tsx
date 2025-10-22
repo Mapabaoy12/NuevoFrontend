@@ -9,6 +9,9 @@ export const Footer = () => {
                 <p className="hidden lg:block"> 
                     PasteleriaMilSabores
                 </p>
+                <p className="text-xs font-medium">
+                    En PasteleríaMilSabores llevamos años endulzando momentos con recetas tradicionales, ingredientes de calidad y el cariño de siempre.
+                </p>
             </Link>
 
                 <div className="flex flex-col gap-4 flex-1">
