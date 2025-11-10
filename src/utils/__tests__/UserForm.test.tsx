@@ -18,7 +18,9 @@ import { UserForm } from "../../components/admin/usuarios/UserForm";
 
 
 describe('Pruebas de componente UserForm', () => {
-    it("Renderiza los campos del formulario correctamente", () => {
+    const mockOnSubmit = vi.fn();
+    const mockOnCancel = vi.fn();
+    it("Carga los campos del formulario correctamente cuando recibe un usuario", () => {
         const usuario = {
             nombre: 'Gustavo Alvial',
             email: 'gu.alvial@duocuc.cl',
@@ -32,10 +34,19 @@ describe('Pruebas de componente UserForm', () => {
             tortaGratisCumpleanosDisponible: true,
             tortaGratisCumpleanosUsada: false
         };
-        render(<UserForm usuario={usuario} onSubmit={jest.fn()} onCancel={jest.fn()}/>);
+        render(<UserForm usuario={usuario} onSubmit={mockOnSubmit} onCancel={mockOnCancel}/>);
 
         expect(screen.getByDisplayValue("Gustavo Alvial")).toBeInTheDocument();
         expect(screen.getByDisplayValue("gu.alvial@duocuc.cl")).toBeInTheDocument();
         expect(screen.getByDisplayValue("979136263")).toBeInTheDocument();
     });
+
+    it("Llama a onCancel al presionar el botón cancelar", async () => {
+        render(<UserForm onSubmit={mockOnSubmit} onCancel={mockOnCancel}/>);
+        fireEvent.click(screen.getbyText("Cancelar"));
+        expect(mockOnCancel).tohaveBeenCalledOnce();
+    });
+
+    
 });
+
