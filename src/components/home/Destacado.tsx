@@ -32,7 +32,7 @@ const destacados: Destacado[] = [
         id: 4,
         icon: MdPayment,
         title: FEATURE_MESSAGES.FLEXIBLE_PAYMENT,
-        description: "Múltiples opciones"
+        description: "Multiples opciones"
     }
 ];
 

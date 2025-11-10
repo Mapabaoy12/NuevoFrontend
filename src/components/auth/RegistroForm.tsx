@@ -41,17 +41,17 @@ export const RegistroForm = () => {
             [name]: value
         });
 
-        // Mostrar información de promociones aplicables
+        // Mostrar informacion de promociones aplicables
         if (name === 'email') {
             if (esDuocEmail(value)) {
-                setPromoInfo("🎂 ¡Correo Duoc UC detectado! Recibirás una torta gratis en tu cumpleaños.");
+                setPromoInfo("Correo Duoc UC detectado Recibiras una torta gratis en tu cumpleanios.");
             } else {
                 setPromoInfo("");
             }
         }
 
         if (name === 'codigoPromocional' && value.toUpperCase() === 'FELICES50') {
-            setPromoInfo("🎉 ¡Código válido! Recibirás 10% de descuento de por vida.");
+            setPromoInfo("Codigo válido Recibiras 10% de descuento de por vida.");
         } else if (name === 'codigoPromocional' && value === '') {
             setPromoInfo("");
         }
@@ -63,7 +63,7 @@ export const RegistroForm = () => {
         const age = today.getFullYear() - birthDate.getFullYear();
         const monthDiff = today.getMonth() - birthDate.getMonth();
         
-        // Ajustar edad si aún no ha cumplido años este año
+        // Ajustar edad si aún no ha cumplido anios este anio
         const adjustedAge = monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())
             ? age - 1
             : age;
@@ -75,7 +75,7 @@ export const RegistroForm = () => {
         e.preventDefault();
         
         if (formData.password !== formData.confirmPassword) {
-            alert("Las contraseñas no coinciden");
+            alert("Las contrasenias no coinciden");
             return;
         }
 
@@ -96,14 +96,14 @@ export const RegistroForm = () => {
 
         if (esMayorDe50) {
             descuentoPorcentaje = 50;
-            beneficios.push("50% de descuento por ser mayor de 50 años");
+            beneficios.push("50% de descuento por ser mayor de 50 anios");
         } else if (tieneCodigoFelices50) {
             descuentoPorcentaje = 10;
-            beneficios.push("10% de descuento de por vida con código FELICES50");
+            beneficios.push("10% de descuento de por vida con codigo FELICES50");
         }
 
         if (esDuoc) {
-            beneficios.push("Torta gratis en tu cumpleaños como estudiante Duoc UC");
+            beneficios.push("Torta gratis en tu cumpleanios como estudiante Duoc UC");
         }
 
         // Crear objeto usuario
@@ -147,11 +147,11 @@ export const RegistroForm = () => {
         listaUsuarios.push(nuevoUsuario);
         localStorage.setItem('usuariosRegistrados', JSON.stringify(listaUsuarios));
 
-        // Guardar usuario en el contexto (iniciar sesión automáticamente)
+        // Guardar usuario en el contexto (iniciar sesion automaticamente)
         login(nuevoUsuario);
         
         // Mostrar mensaje con beneficios
-        let mensaje = "¡Cuenta creada exitosamente!";
+        let mensaje = "Cuenta creada exitosamente";
         if (beneficios.length > 0) {
             mensaje += "\n\nTus beneficios:\n• " + beneficios.join("\n• ");
         }
@@ -174,7 +174,7 @@ export const RegistroForm = () => {
                 />
 
                 <InputField
-                    label="Correo electrónico"
+                    label="Correo electronico"
                     type="email"
                     name="email"
                     value={formData.email}
@@ -184,7 +184,7 @@ export const RegistroForm = () => {
                 />
 
                 <InputField
-                    label="Teléfono"
+                    label="Telefono"
                     type="tel"
                     name="telefono"
                     value={formData.telefono}
@@ -204,18 +204,18 @@ export const RegistroForm = () => {
                 />
 
                 <InputField
-                    label="Dirección"
+                    label="Direccion"
                     type="text"
                     name="direccion"
                     value={formData.direccion}
                     onChange={handleChange}
-                    placeholder="Calle, número, comuna"
+                    placeholder="Calle, numero, comuna"
                     icon={HiLocationMarker}
                 />
 
                 <div>
                     <InputField
-                        label="Código promocional (opcional)"
+                        label="Codigo promocional (opcional)"
                         type="text"
                         name="codigoPromocional"
                         value={formData.codigoPromocional}
@@ -232,7 +232,7 @@ export const RegistroForm = () => {
                 </div>
 
                 <InputField
-                    label="Contraseña"
+                    label="Contrasenia"
                     type="password"
                     name="password"
                     value={formData.password}
@@ -243,7 +243,7 @@ export const RegistroForm = () => {
                 />
 
                 <InputField
-                    label="Confirmar contraseña"
+                    label="Confirmar contrasenia"
                     type="password"
                     name="confirmPassword"
                     value={formData.confirmPassword}
@@ -267,7 +267,7 @@ export const RegistroForm = () => {
                 <p className="text-gray-600">
                     ¿Ya tienes cuenta?{" "}
                     <Link to="/login" className="text-rose-600 hover:text-rose-700 font-medium">
-                        Inicia sesión
+                        Inicia sesion
                     </Link>
                 </p>
             </div>

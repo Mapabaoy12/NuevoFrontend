@@ -61,10 +61,10 @@ export const ProductForm = ({ producto, onSubmit, onCancel }: ProductFormProps) 
                     </h2>
 
                     <form onSubmit={handleSubmit} className="space-y-4">
-                        {/* Título */}
+                        {/* Titulo */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Título *
+                                Titulo *
                             </label>
                             <input
                                 type="text"
@@ -77,10 +77,10 @@ export const ProductForm = ({ producto, onSubmit, onCancel }: ProductFormProps) 
                             />
                         </div>
 
-                        {/* Descripción */}
+                        {/* Descripcion */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Descripción *
+                                Descripcion *
                             </label>
                             <textarea
                                 name="descripcion"
@@ -128,7 +128,7 @@ export const ProductForm = ({ producto, onSubmit, onCancel }: ProductFormProps) 
                             </div>
                         </div>
 
-                        {/* Forma y Tamaño */}
+                        {/* Forma y Tamanio */}
                         <div className="grid grid-cols-2 gap-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -148,7 +148,7 @@ export const ProductForm = ({ producto, onSubmit, onCancel }: ProductFormProps) 
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Tamaño *
+                                    Tamanio *
                                 </label>
                                 <select
                                     name="tamanio"

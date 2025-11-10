@@ -12,7 +12,7 @@ const destacados: Destacado[] = [
     {
         id: 1,
         icon: MdLocalShipping,
-        title: "Envío gratis",
+        title: "Envio gratis",
         description: "En todos los productos"
     },
     {
@@ -31,7 +31,7 @@ const destacados: Destacado[] = [
         id: 4,
         icon: MdPayment,
         title: "Pago flexible",
-        description: "Múltiples opciones"
+        description: "Multiples opciones"
     }
 ];
 

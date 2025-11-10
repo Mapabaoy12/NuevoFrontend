@@ -38,14 +38,14 @@ export const UserItem = ({ usuario, onEdit, onDelete }: UserItemProps) => {
                     )}
                     {usuario.esDuocUC && (
                         <span className="text-xs bg-green-100 text-green-700 px-2 py-1 rounded">
-                            🎂 Duoc UC
+                            Duoc UC
                         </span>
                     )}
                 </div>
             </div>
 
             <div className="text-sm text-gray-600 mb-3">
-                <p><span className="font-medium">Dirección:</span> {usuario.direccion}</p>
+                <p><span className="font-medium">Direccion:</span> {usuario.direccion}</p>
                 <p><span className="font-medium">Fecha de Nacimiento:</span> {new Date(usuario.fechaNacimiento).toLocaleDateString('es-CL')}</p>
                 {usuario.descuentoPorcentaje > 0 && (
                     <p className="text-rose-600 font-medium">
@@ -54,7 +54,7 @@ export const UserItem = ({ usuario, onEdit, onDelete }: UserItemProps) => {
                 )}
             </div>
 
-            {/* Botones de acción */}
+            {/* Botones de accion */}
             <div className="flex gap-2 justify-end">
                 <button
                     onClick={() => onEdit(usuario)}
@@ -70,13 +70,13 @@ export const UserItem = ({ usuario, onEdit, onDelete }: UserItemProps) => {
                 </button>
             </div>
 
-            {/* Modal de confirmación de eliminación */}
+            {/* Modal de confirmacion de eliminacion */}
             {showDeleteConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-xl max-w-md">
                         <h3 className="text-xl font-bold mb-4">Confirmar eliminación</h3>
                         <p className="text-gray-600 mb-6">
-                            ¿Estás seguro de que deseas eliminar al usuario "{usuario.nombre}"? Esta acción no se puede deshacer.
+                            ¿Estás seguro de que deseas eliminar al usuario "{usuario.nombre}"? Esta accion no se puede deshacer.
                         </p>
                         <div className="flex gap-3 justify-end">
                             <button

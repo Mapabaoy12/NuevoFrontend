@@ -39,7 +39,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
         }));
     };
 
-    // Toggle tamaño (agregar/quitar)
+    // Toggle tamanio (agregar/quitar)
     const toggleTamanio = (tamanio: string) => {
         setFilters(prev => ({
             ...prev,
@@ -63,7 +63,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
             filtered = filtered.filter(p => filters.formas.includes(p.forma));
         }
 
-        // Filtrar por tamaño
+        // Filtrar por tamanio
         if (filters.tamanios.length > 0) {
             filtered = filtered.filter(p => filters.tamanios.includes(p.tamanio));
         }
@@ -90,7 +90,7 @@ export const FilterProvider = ({ children }: { children: ReactNode }) => {
 export const useFilters = () => {
     const context = useContext(FilterContext);
     if (!context) {
-        throw new Error('useFilters must be used within a FilterProvider');
+        throw new Error('useFilters debe ser usado con FilterProvider');
     }
     return context;
 };

@@ -1,12 +1,12 @@
-/**
- * Utilidades para formateo de datos
+/*
+  Utilidades para formateo de datos
  */
 
-/**
- * Formatea un número como precio en pesos chilenos (CLP)
- * @param price - El precio numérico a formatear
- * @returns El precio formateado como string con formato de moneda chilena
- * @example formatPrice(10000) // "$10.000"
+/*
+ Formatea un numero como precio en pesos chilenos (CLP)
+ @param price - El precio numérico a formatear
+ @returns El precio formateado como string con formato de moneda chilena
+ @example formatPrice(10000) // "$10.000"
  */
 export const formatPrice = (price: number): string => {
     return new Intl.NumberFormat('es-CL', {
@@ -15,12 +15,12 @@ export const formatPrice = (price: number): string => {
     }).format(price);
 };
 
-/**
- * Formatea una fecha en formato legible en español
- * @param date - La fecha a formatear
- * @returns La fecha formateada en español
- * @example formatDate(new Date()) // "7 de noviembre de 2025"
- */
+/*
+* Formatea una fecha en formato legible en espaniol
+* @param date - La fecha a formatear
+* @returns La fecha formateada en espaniol
+* @example formatDate(new Date()) // "7 de noviembre de 2025"
+*/
 export const formatDate = (date: Date): string => {
     return new Intl.DateTimeFormat('es-CL', {
         year: 'numeric',
@@ -29,11 +29,11 @@ export const formatDate = (date: Date): string => {
     }).format(date);
 };
 
-/**
- * Formatea una fecha con hora
- * @param date - La fecha a formatear
- * @returns La fecha y hora formateada
- * @example formatDateTime(new Date()) // "7/11/2025, 20:30"
+/*
+  Formatea una fecha con hora
+  @param date - La fecha a formatear
+  @returns La fecha y hora formateada
+  @example formatDateTime(new Date()) // "7/11/2025, 20:30"
  */
 export const formatDateTime = (date: Date): string => {
     return new Intl.DateTimeFormat('es-CL', {

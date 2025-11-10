@@ -9,8 +9,8 @@ interface EmptyCartProps {
 }
 
 export const EmptyCart = ({ 
-    title = "Tu carrito está vacío",
-    message = "¡Agrega algunos productos deliciosos a tu carrito!",
+    title = "Tu carrito esta vacio",
+    message = "Agrega algunos productos deliciosos a tu carrito",
     buttonText = "Ver Pasteles",
     redirectTo = "/pasteles"
 }: EmptyCartProps) => {

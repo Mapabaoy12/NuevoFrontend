@@ -33,7 +33,7 @@ export const UserProfile = ({ user, onLogout }: UserProfileProps) => {
                     className="flex items-center gap-2 px-4 py-2 text-gray-600 hover:text-rose-600 transition-colors"
                 >
                     <HiLogout size={20} />
-                    <span>Cerrar Sesión</span>
+                    <span>Cerrar Sesion</span>
                 </button>
             </div>
             <ActiveBenefits user={user} />

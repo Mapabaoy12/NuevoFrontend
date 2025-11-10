@@ -33,7 +33,7 @@ export const CardProduct = ({producto}:Props) => {
                     className={`${added ? 'bg-green-500 text-white border-green-500' : 'bg-white text-black border-slate-200'} border absolute w-full bottom-0 py-3 rounded-3xl flex items-center justify-center gap-1 text-sm font-medium hover:bg-stone-100 translate-y-full transition-all duration-300 group-hover:translate-y-0`}
                 >
                     <FiPlus/>
-                    {added ? '¡Añadido!' : 'Aniadir'}
+                    {added ? 'Aniadido' : 'Aniadir'}
                 </button>
             </Link>
                 <div className="flex flex-col gap-1 items-center">

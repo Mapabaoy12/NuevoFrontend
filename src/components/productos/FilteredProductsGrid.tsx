@@ -30,7 +30,7 @@ export const FilteredProductsGrid = ({ productos, hasActiveFilters }: FilteredPr
                         No se encontraron productos con los filtros seleccionados
                     </p>
                     <p className="text-gray-500">
-                        Intenta ajustar tus filtros para ver más resultados
+                        Intenta ajustar tus filtros para ver mas resultados
                     </p>
                 </div>
             )}

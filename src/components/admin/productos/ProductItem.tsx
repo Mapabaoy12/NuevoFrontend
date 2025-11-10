@@ -28,7 +28,7 @@ export const ProductItem = ({ producto, onEdit, onDelete }: ProductItemProps) =>
                     />
                 </div>
 
-                {/* Información del producto */}
+                {/* Informacion del producto */}
                 <div className="flex-1">
                     <h3 className="font-semibold text-lg mb-1">{producto.titulo}</h3>
                     <p className="text-sm text-gray-600 mb-2 line-clamp-2">{producto.descripcion}</p>
@@ -50,7 +50,7 @@ export const ProductItem = ({ producto, onEdit, onDelete }: ProductItemProps) =>
                             {formatPrice(producto.precio)}
                         </span>
 
-                        {/* Botones de acción */}
+                        {/* Botones de accion */}
                         <div className="flex gap-2">
                             <button
                                 onClick={() => onEdit(producto)}
@@ -69,13 +69,13 @@ export const ProductItem = ({ producto, onEdit, onDelete }: ProductItemProps) =>
                 </div>
             </div>
 
-            {/* Modal de confirmación de eliminación */}
+            {/* Modal de confirmacion de eliminacion */}
             {showDeleteConfirm && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-xl max-w-md">
-                        <h3 className="text-xl font-bold mb-4">Confirmar eliminación</h3>
+                        <h3 className="text-xl font-bold mb-4">Confirmar eliminacion</h3>
                         <p className="text-gray-600 mb-6">
-                            ¿Estás seguro de que deseas eliminar "{producto.titulo}"? Esta acción no se puede deshacer.
+                            ¿Estas seguro de que deseas eliminar "{producto.titulo}"? Esta accion no se puede deshacer.
                         </p>
                         <div className="flex gap-3 justify-end">
                             <button

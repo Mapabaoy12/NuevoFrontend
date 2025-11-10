@@ -34,7 +34,7 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Calcular beneficios automáticamente
+        // Calcular beneficios automaticamente
         const edad = calcularEdad(formData.fechaNacimiento);
         const esMayorDe50 = edad >= 50;
         const esDuocUC = esDuocEmail(formData.email);
@@ -70,7 +70,7 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
         }));
     };
 
-    // Validación de edad máxima
+    // Validacion de edad maxima
     const getMaxDate = () => {
         const today = new Date();
         const maxDate = new Date(today.getFullYear() - 102, today.getMonth(), today.getDate());
@@ -103,7 +103,7 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                                 onChange={handleChange}
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                                placeholder="Juan Pérez"
+                                placeholder="Goatavo labial"
                             />
                         </div>
 
@@ -129,10 +129,10 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                             )}
                         </div>
 
-                        {/* Teléfono */}
+                        {/* Telefono */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Teléfono *
+                                Telefono *
                             </label>
                             <input
                                 type="tel"
@@ -141,7 +141,7 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                                 onChange={handleChange}
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                                placeholder="+56912345678"
+                                placeholder="+56991537604"
                             />
                         </div>
 
@@ -161,14 +161,14 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                             />
                             <p className="text-xs text-gray-500 mt-1">
-                                Edad máxima: 102 años
+                                Edad maxima: 102 años
                             </p>
                         </div>
 
-                        {/* Dirección */}
+                        {/* Direccion */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Dirección *
+                                Direccion *
                             </label>
                             <input
                                 type="text"
@@ -177,14 +177,14 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                                 onChange={handleChange}
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                                placeholder="Av. Principal 123, Santiago"
+                                placeholder="Av. Pablo de rokha, Conce"
                             />
                         </div>
 
-                        {/* Código Promocional */}
+                        {/* Codigo Promocional */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">
-                                Código Promocional (Opcional)
+                                Codigo Promocional (Opcional)
                             </label>
                             <input
                                 type="text"
@@ -199,13 +199,13 @@ export const UserForm = ({ usuario, onSubmit, onCancel }: UserFormProps) => {
                             </p>
                         </div>
 
-                        {/* Información de beneficios */}
+                        {/* Informacion de beneficios */}
                         <div className="bg-blue-50 p-4 rounded-lg">
-                            <h3 className="font-medium text-sm mb-2">Beneficios automáticos:</h3>
+                            <h3 className="font-medium text-sm mb-2">Beneficios automaticos:</h3>
                             <ul className="text-xs text-gray-700 space-y-1">
-                                <li>• Usuarios mayores de 50 años: 50% de descuento</li>
-                                <li>• Código FELICES50: 10% de descuento de por vida</li>
-                                <li>• Emails @duoc.cl/@duocuc.cl: Torta gratis en cumpleaños</li>
+                                <li>• Usuarios mayores de 50 anios: 50% de descuento</li>
+                                <li>• Codigo FELICES50: 10% de descuento de por vida</li>
+                                <li>• Emails @duoc.cl/@duocuc.cl: Torta gratis en cumpleanios</li>
                             </ul>
                         </div>
 

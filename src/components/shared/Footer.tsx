@@ -10,7 +10,7 @@ export const Footer = () => {
                     PasteleriaMilSabores
                 </p>
                 <p className="text-xs font-medium">
-                    En PasteleríaMilSabores llevamos años endulzando momentos con recetas tradicionales, ingredientes de calidad y el cariño de siempre.
+                    En PasteleriaMilSabores llevamos años endulzando momentos con recetas tradicionales, ingredientes de calidad y el cariño de siempre.
                 </p>
             </Link>
 

@@ -9,8 +9,8 @@ interface RestrictedAccessProps {
 
 export const RestrictedAccess = ({ 
     title = "Acceso Restringido",
-    message = "Debes iniciar sesión para ver esta página",
-    buttonText = "Iniciar Sesión",
+    message = "Debes iniciar sesion para ver esta pagina",
+    buttonText = "Iniciar Sesion",
     redirectTo = "/login"
 }: RestrictedAccessProps) => {
     return (

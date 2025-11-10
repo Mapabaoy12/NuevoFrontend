@@ -14,14 +14,14 @@ export const AdministradorPage = () => {
                     {/* Header */}
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                            Panel de Administración
+                            Panel de Administracion
                         </h1>
                         <p className="text-gray-600">
-                            Gestiona productos y usuarios de la pastelería
+                            Gestiona productos y usuarios de la pasteleria
                         </p>
                     </div>
 
-                    {/* Navegación del Dashboard */}
+                    {/* Navegacion del Dashboard */}
                     <DashboardNav activeTab={activeTab} onTabChange={setActiveTab} />
 
                     {/* Contenido del Dashboard */}

@@ -51,10 +51,10 @@ export const ProductList = () => {
 
     return (
         <div>
-            {/* Header con búsqueda y filtros */}
+            {/* Header con busqueda y filtros */}
             <div className="mb-6">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold">Gestión de Productos</h2>
+                    <h2 className="text-2xl font-bold">Gestion de Productos</h2>
                     <button
                         onClick={handleAddProduct}
                         className="px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-600 transition-colors font-medium"
@@ -63,7 +63,7 @@ export const ProductList = () => {
                     </button>
                 </div>
 
-                {/* Barra de búsqueda */}
+                {/* Barra de busqueda */}
                 <div className="mb-4">
                     <input
                         type="text"
@@ -93,7 +93,7 @@ export const ProductList = () => {
 
                     <div className="flex-1">
                         <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Tamaño
+                            Tamanio
                         </label>
                         <select
                             value={filterTamanio}
@@ -102,13 +102,13 @@ export const ProductList = () => {
                         >
                             <option value="todos">Todos</option>
                             <option value="Grande">Grande</option>
-                            <option value="Pequenia">Pequeña</option>
+                            <option value="Pequenia">Pequenia</option>
                         </select>
                     </div>
                 </div>
             </div>
 
-            {/* Estadísticas */}
+            {/* Estadisticas */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-blue-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600">Total Productos</p>

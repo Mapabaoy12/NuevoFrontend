@@ -44,8 +44,8 @@ export const ContainerFilter = () => {
 
                 <Separator />
 
-                {/* Filtro por Tamaño */}
-                <FilterSection title="Tamaño">
+                {/* Filtro por Tamanio */}
+                <FilterSection title="Tamanio">
                     {tamaniosDisponibles.map(tamanio => (
                         <FilterCheckbox
                             key={tamanio}

@@ -15,7 +15,7 @@ export const DashboardNav = ({ activeTab, onTabChange }: DashboardNavProps) => {
                             : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                 >
-                    Gestión de Productos
+                    Gestion de Productos
                 </button>
                 <button
                     onClick={() => onTabChange('usuarios')}
@@ -25,7 +25,7 @@ export const DashboardNav = ({ activeTab, onTabChange }: DashboardNavProps) => {
                             : 'border-transparent text-gray-500 hover:text-gray-700'
                     }`}
                 >
-                    Gestión de Usuarios
+                    Gestion de Usuarios
                 </button>
             </nav>
         </div>

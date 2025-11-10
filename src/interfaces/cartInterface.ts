@@ -5,7 +5,7 @@ export interface CartItem extends Producto {
     quantity: number;
 }
 
-// Código promocional
+// Codigo promocional
 export interface PromoCode {
     code: string;
     discount: number; // Porcentaje de descuento (0-100)

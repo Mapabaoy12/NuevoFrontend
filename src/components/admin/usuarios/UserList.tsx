@@ -40,7 +40,7 @@ export const UserList = () => {
         } else {
             // No permitir agregar usuarios desde el admin (solo editar)
             // Los usuarios deben registrarse desde el formulario de registro
-            alert('Los usuarios deben registrarse desde la página de registro');
+            alert('Los usuarios deben registrarse desde la pagina de registro');
             return;
         }
         setShowForm(false);
@@ -52,7 +52,7 @@ export const UserList = () => {
         setEditingUser(undefined);
     };
 
-    // Estadísticas
+    // Estadisticas
     const totalUsuarios = usuarios.length;
     const usuariosConDescuento = usuarios.filter(u => u.descuentoPorcentaje > 0).length;
     const usuariosDuoc = usuarios.filter(u => u.esDuocUC).length;
@@ -62,13 +62,13 @@ export const UserList = () => {
             {/* Header */}
             <div className="mb-6">
                 <div className="flex justify-between items-center mb-4">
-                    <h2 className="text-2xl font-bold">Gestión de Usuarios</h2>
+                    <h2 className="text-2xl font-bold">Gestion de Usuarios</h2>
                     <div className="text-sm text-gray-600">
-                        Los usuarios se registran desde la página de registro
+                        Los usuarios se registran desde la pagina de registro
                     </div>
                 </div>
 
-                {/* Barra de búsqueda */}
+                {/* Barra de busqueda */}
                 <div className="mb-4">
                     <input
                         type="text"
@@ -91,13 +91,13 @@ export const UserList = () => {
                     >
                         <option value="todos">Todos los usuarios</option>
                         <option value="mayor50">Mayores de 50 (50% descuento)</option>
-                        <option value="felices50">Con código FELICES50 (10% descuento)</option>
+                        <option value="felices50">Con codigo FELICES50 (10% descuento)</option>
                         <option value="duoc">Duoc UC (Torta gratis)</option>
                     </select>
                 </div>
             </div>
 
-            {/* Estadísticas */}
+            {/* Estadisticas */}
             <div className="grid grid-cols-3 gap-4 mb-6">
                 <div className="bg-blue-50 p-4 rounded-lg">
                     <p className="text-sm text-gray-600">Total Usuarios</p>

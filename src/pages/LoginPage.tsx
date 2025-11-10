@@ -11,7 +11,7 @@ export const LoginPage = () => {
                 
                 <div className="mt-6 text-center">
                     <Link to="/" className="text-gray-600 hover:text-black">
-                        ← Volver al inicio
+                         Volver al inicio
                     </Link>
                 </div>
             </div>

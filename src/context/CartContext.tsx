@@ -2,13 +2,10 @@ import { createContext, useContext, useReducer, useEffect, type ReactNode } from
 import type { CartState, CartAction, CartContextType } from '../interfaces/cartInterface';
 import type { Producto } from '../data/productos';
 
-// Códigos promocionales válidos
+// Codigos promocionales válidos
 const VALID_PROMO_CODES: Record<string, number> = {
-    'PROMO10': 10,
-    'PROMO20': 20,
-    'DESCUENTO15': 15,
-    'BIENVENIDO': 5,
-    'FELICES50': 10, // Código especial del aniversario
+    
+    'FELICES50': 10 
 };
 
 // Estado inicial del carrito
@@ -180,7 +177,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                 const parsedCart = JSON.parse(savedCart);
                 dispatch({ type: 'LOAD_CART', payload: parsedCart });
             } catch {
-                // Si hay error, usar carrito vacío
+                // Si hay error, usar carrito vacio
                 localStorage.removeItem('cart');
             }
         }
@@ -191,7 +188,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    // Funciones públicas del contexto
+    // Funciones publicas del contexto
     const addToCart = (producto: Producto) => {
         dispatch({ type: 'ADD_TO_CART', payload: producto });
     };
@@ -252,7 +249,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {
-        throw new Error('useCart must be used within a CartProvider');
+        throw new Error('useCart debe ser usado con CartProvider');
     }
     return context;
 };

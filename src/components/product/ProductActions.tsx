@@ -59,7 +59,7 @@ export const ProductActions = ({ producto }: ProductActionsProps) => {
                 </div>
             </div>
 
-            {/* Botones de acción */}
+            {/* Botones de accion */}
             <div className="flex flex-col sm:flex-row gap-3">
                 <button
                     onClick={handleAddToCart}
@@ -73,7 +73,7 @@ export const ProductActions = ({ producto }: ProductActionsProps) => {
                     }`}
                 >
                     <HiShoppingCart size={22} />
-                    {added ? '¡Añadido al carrito!' : isOutOfStock ? 'Agotado' : 'Agregar al carrito'}
+                    {added ? 'Aniadido al carrito' : isOutOfStock ? 'Agotado' : 'Agregar al carrito'}
                 </button>
 
                 <Link
@@ -84,7 +84,7 @@ export const ProductActions = ({ producto }: ProductActionsProps) => {
                 </Link>
             </div>
 
-            {/* Información adicional */}
+            {/* Informacion adicional */}
             <div className="bg-gray-50 p-4 rounded-lg space-y-2 text-sm">
                 <p className="flex items-center gap-2">
                     <span className="text-green-600">✓</span>

@@ -4,7 +4,7 @@ interface ContactInfoProps {
     introText?: string;
 }
 
-export const ContactInfo = ({ email, phone, introText = "Para más información" }: ContactInfoProps) => {
+export const ContactInfo = ({ email, phone, introText = "Para mas informacion" }: ContactInfoProps) => {
     return (
         <p className="tracking-tighter leading-7 text-sm font-medium text-slate-800">
             {introText}{' '}

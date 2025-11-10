@@ -27,7 +27,7 @@ export const QuickAccessCards = () => {
             iconColor: "text-blue-600",
             bgColor: "bg-blue-100",
             title: "Perfil",
-            description: "Editar información personal",
+            description: "Editar informacion personal",
             link: null
         },
         {
@@ -35,7 +35,7 @@ export const QuickAccessCards = () => {
             icon: HiCog,
             iconColor: "text-gray-600",
             bgColor: "bg-gray-100",
-            title: "Configuración",
+            title: "Configuracion",
             description: "Ajustes de la cuenta",
             link: null
         }
@@ -43,7 +43,7 @@ export const QuickAccessCards = () => {
 
     return (
         <>
-            <h2 className="text-2xl font-bold mb-4">Accesos Rápidos</h2>
+            <h2 className="text-2xl font-bold mb-4">Accesos Rapidos</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {cards.map((card) => {
                     const Icon = card.icon;

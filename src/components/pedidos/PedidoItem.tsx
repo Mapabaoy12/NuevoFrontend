@@ -59,7 +59,7 @@ export const PedidoItem = ({ pedido }: PedidoItemProps) => {
                     
                     {pedido.descuentoCodigo > 0 && (
                         <div className="flex justify-between text-sm text-green-600">
-                            <span>Descuento código {pedido.codigoPromoAplicado && `(${pedido.codigoPromoAplicado})`}</span>
+                            <span>Descuento codigo {pedido.codigoPromoAplicado && `(${pedido.codigoPromoAplicado})`}</span>
                             <span>-{formatPrice(pedido.descuentoCodigo)}</span>
                         </div>
                     )}

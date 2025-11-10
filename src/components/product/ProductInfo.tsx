@@ -16,7 +16,7 @@ export const ProductInfo = ({ producto }: ProductInfoProps) => {
             </div>
 
             <div className="border-t border-b border-slate-200 py-6">
-                <h3 className="font-semibold text-lg mb-2">Descripción</h3>
+                <h3 className="font-semibold text-lg mb-2">Descripcion</h3>
                 <p className="text-gray-700 leading-relaxed">{producto.descripcion}</p>
             </div>
 
@@ -26,7 +26,7 @@ export const ProductInfo = ({ producto }: ProductInfoProps) => {
                     <p className="text-black font-medium">{producto.forma}</p>
                 </div>
                 <div>
-                    <h3 className="font-semibold text-sm text-gray-600 mb-1">Tamaño</h3>
+                    <h3 className="font-semibold text-sm text-gray-600 mb-1">Tamanio</h3>
                     <p className="text-black font-medium">{producto.tamanio}</p>
                 </div>
             </div>

@@ -48,7 +48,7 @@ export const LoginForm = () => {
             if (usuarioEncontrado) {
                 // Login exitoso - cargar usuario en el contexto
                 login(usuarioEncontrado);
-                alert("¡Sesión iniciada exitosamente!");
+                alert("Sesion iniciada exitosamente");
                 navigate("/account");
             } else {
                 alert(AUTH_MESSAGES.EMAIL_NOT_REGISTERED);
@@ -63,7 +63,7 @@ export const LoginForm = () => {
         <div className="bg-white rounded-lg shadow-md p-8">
             <form onSubmit={handleSubmit} className="space-y-6">
                 <InputField
-                    label="Correo electrónico"
+                    label="Correo electronico"
                     type="email"
                     name="email"
                     value={formData.email}
@@ -73,7 +73,7 @@ export const LoginForm = () => {
                 />
 
                 <InputField
-                    label="Contraseña"
+                    label="Contrasenia"
                     type="password"
                     name="password"
                     value={formData.password}
@@ -91,7 +91,7 @@ export const LoginForm = () => {
                     type="submit"
                     className="w-full bg-rose-500 text-white py-3 rounded-lg hover:bg-rose-600 transition-colors font-medium"
                 >
-                    Iniciar Sesión
+                    Iniciar Sesion
                 </button>
             </form>
 
@@ -99,7 +99,7 @@ export const LoginForm = () => {
                 <p className="text-gray-600">
                     ¿No tienes cuenta?{" "}
                     <Link to="/registro" className="text-rose-600 hover:text-rose-700 font-medium">
-                        Regístrate aquí
+                        Registrate aquí
                     </Link>
                 </p>
             </div>

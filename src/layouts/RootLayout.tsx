@@ -14,10 +14,10 @@ export const RootLayout = () => {
 
     return (
         <div className="flex flex-col min-h-screen">
-            {/* NavBar full width */}
+            {/* NavBar que cubrira toda la parte de arribita */}
             <NavBar />
 
-            {/* Centered container for page content */}
+            {/* Container centralizado */}
             <div className="container mx-auto px-4 flex-1">
                 {/* Si la ruta en la que estamos es igual a la de abajo nos procede a mostrar el contenido que nos plazca */}
                 {pathname === '/' && <Banner />}
@@ -30,7 +30,7 @@ export const RootLayout = () => {
                 {pathname === '/' && <Novedades />}
             </div>
 
-            {/* Footer full width */}
+            {/* Footer que ocupara toda la parte de abajito */}
             <Footer />
         </div>
     );

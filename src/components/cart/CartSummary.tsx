@@ -22,27 +22,27 @@ export const CartSummary = ({ cart, onApplyPromoCode, onRemovePromoCode }: CartS
     const navigate = useNavigate();
     const [isProcessing, setIsProcessing] = useState(false);
     
-    const envio = 0; // Envío gratis por ahora
+    const envio = 0; // Envio gratis 
 
     // Calcular descuento de usuario
     const userDiscount = user && user.descuentoPorcentaje > 0 
         ? Math.round(cart.subtotal * (user.descuentoPorcentaje / 100))
         : 0;
 
-    // Total con descuentos de usuario y código promocional
+    // Total con descuentos de usuario y codigo promocional
     const totalConDescuentos = cart.total - userDiscount;
 
     const handleProcederPago = () => {
         // Verificar que el usuario esté logueado
         if (!isAuthenticated || !user) {
-            alert("Debes iniciar sesión para realizar una compra");
+            alert("Debes iniciar sesion para realizar una compra");
             navigate("/login");
             return;
         }
 
         // Verificar que haya items en el carrito
         if (cart.items.length === 0) {
-            alert("Tu carrito está vacío");
+            alert("Tu carrito esta vacio");
             return;
         }
 
@@ -65,8 +65,8 @@ export const CartSummary = ({ cart, onApplyPromoCode, onRemovePromoCode }: CartS
 
             setIsProcessing(false);
 
-            // Mostrar mensaje de éxito
-            alert("¡Compra realizada exitosamente! 🎉\n\nPuedes ver tu pedido en tu perfil.");
+            // Mostrar mensaje de exito
+            alert("Compra realizada exitosamente \n\nPuedes ver tu pedido en tu perfil.");
 
             // Redirigir a la página de cuenta
             navigate("/account");
@@ -93,7 +93,7 @@ export const CartSummary = ({ cart, onApplyPromoCode, onRemovePromoCode }: CartS
 
                 {cart.promoCode && cart.discount > 0 && (
                     <div className="flex justify-between text-sm">
-                        <span className="text-green-600">Descuento código ({cart.promoCode.discount}%)</span>
+                        <span className="text-green-600">Descuento codigo ({cart.promoCode.discount}%)</span>
                         <span className="font-medium text-green-600">-{formatPrice(cart.discount)}</span>
                     </div>
                 )}
@@ -106,7 +106,7 @@ export const CartSummary = ({ cart, onApplyPromoCode, onRemovePromoCode }: CartS
                 )}
                 
                 <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Envío</span>
+                    <span className="text-gray-600">Envio</span>
                     <span className="font-medium text-green-600">
                         {envio === 0 ? 'Gratis' : formatPrice(envio)}
                     </span>
