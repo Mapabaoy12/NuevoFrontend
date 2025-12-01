@@ -60,7 +60,7 @@ describe('CartContext', () => {
     localStorage.clear();
   });
 
-  it('debe inicializar con carrito vacío', () => {
+  it('debe inicializar con carrito vacio', () => {
     const { result } = renderHook(() => useCart(), { wrapper });
     
     expect(result.current.cart.items).toHaveLength(0);

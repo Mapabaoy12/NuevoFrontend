@@ -53,12 +53,28 @@ export const PedidosProvider = ({ children }: { children: ReactNode }) => {
         return pedidos.filter(pedido => pedido.id.startsWith(userEmail));
     };
 
+    const actualizarEstadoPedido = (pedidoId: string, nuevoEstado: 'completado' | 'pendiente' | 'cancelado') => {
+        setPedidos(prev => 
+            prev.map(pedido => 
+                pedido.id === pedidoId 
+                    ? { ...pedido, estado: nuevoEstado }
+                    : pedido
+            )
+        );
+    };
+
+    const eliminarPedido = (pedidoId: string) => {
+        setPedidos(prev => prev.filter(pedido => pedido.id !== pedidoId));
+    };
+
     return (
         <PedidosContext.Provider
             value={{
                 pedidos,
                 agregarPedido,
-                obtenerPedidosUsuario
+                obtenerPedidosUsuario,
+                actualizarEstadoPedido,
+                eliminarPedido
             }}
         >
             {children}

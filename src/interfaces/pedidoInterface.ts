@@ -20,4 +20,6 @@ export interface PedidosContextType {
     pedidos: Pedido[];
     agregarPedido: (pedido: Omit<Pedido, 'id' | 'fecha' | 'estado'>) => void;
     obtenerPedidosUsuario: (userEmail: string) => Pedido[];
+    actualizarEstadoPedido: (pedidoId: string, nuevoEstado: 'completado' | 'pendiente' | 'cancelado') => void;
+    eliminarPedido: (pedidoId: string) => void;
 }
