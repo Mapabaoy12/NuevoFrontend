@@ -31,7 +31,7 @@ const calcularEdad = (fechaNacimiento: string): number => {
 
 const esDuocEmail = (email: string): boolean => {
     const emailLower = email.toLowerCase();
-    return emailLower.endsWith('@duoc.cl') || emailLower. endsWith('@duocuc.cl');
+    return emailLower.endsWith('@duoc.cl') || emailLower.endsWith('@duocuc.cl');
 };
 
 export const RegistroForm = () => {
@@ -53,7 +53,7 @@ export const RegistroForm = () => {
     const handleChange = (e: React. ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target. value
+            [e.target.name]: e.target.value
         });
     };
 
@@ -74,10 +74,10 @@ export const RegistroForm = () => {
         setIsSubmitting(true);
 
         // Calcular beneficios
-        const edad = formData.fechaNacimiento ? calcularEdad(formData. fechaNacimiento) : 0;
-        const esDuoc = esDuocEmail(formData. email);
+        const edad = formData.fechaNacimiento ? calcularEdad(formData.fechaNacimiento) : 0;
+        const esDuoc = esDuocEmail(formData.email);
         const esMayorDe50 = edad >= 50;
-        const tieneCodigoFelices50 = formData.codigoPromocional. toUpperCase() === 'FELICES50';
+        const tieneCodigoFelices50 = formData.codigoPromocional.toUpperCase() === 'FELICES50';
 
         let descuentoPorcentaje = 0;
         const beneficios: string[] = [];
@@ -102,7 +102,7 @@ export const RegistroForm = () => {
                 contrasenia: formData.password,
                 tipoUsuario: 'Cliente',
                 datosExtra: {
-                    telefono: formData. telefono,
+                    telefono: formData.telefono,
                     fechaNacimiento: formData.fechaNacimiento,
                     direccion: formData.direccion,
                     codigoPromocional: formData.codigoPromocional,
@@ -118,7 +118,7 @@ export const RegistroForm = () => {
             if (success) {
                 let mensaje = "¡Cuenta creada exitosamente!";
                 if (beneficios.length > 0) {
-                    mensaje += "\n\nTus beneficios:\n• " + beneficios. join("\n• ");
+                    mensaje += "\n\nTus beneficios:\n• " + beneficios.join("\n• ");
                 }
                 alert(mensaje);
                 navigate("/account");

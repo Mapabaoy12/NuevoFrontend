@@ -94,8 +94,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
     switch (action.type) {
         case 'SET_CARRITO_ID':
             return {
-                ... state,
-                carritoId: action. payload.carritoId,
+                ...state,
+                carritoId: action.payload.carritoId,
                 usuarioId: action.payload.usuarioId,
                 synced: true,
             };
@@ -104,13 +104,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             return { ...state, loading: action.payload };
 
         case 'ADD_TO_CART': {
-            const existingIndex = state.items. findIndex(item => item.id === action.payload.id);
+            const existingIndex = state.items.findIndex(item => item.id === action.payload.id);
             let newItems: CartItem[];
 
             if (existingIndex > -1) {
                 newItems = state.items.map((item, index) =>
                     index === existingIndex
-                        ? { ... item, quantity: item.quantity + action.payload.quantity }
+                        ? { ...item, quantity: item.quantity + action.payload.quantity }
                         : item
                 );
             } else {
@@ -138,7 +138,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             const total = calculateTotal(subtotal, discount);
 
             return {
-                ... state,
+                ...state,
                 items: newItems,
                 subtotal,
                 discount,
@@ -151,13 +151,13 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             const { id, quantity } = action.payload;
 
             if (quantity <= 0) {
-                const newItems = state. items.filter(item => item.id !== id);
+                const newItems = state.items.filter(item => item.id !== id);
                 const subtotal = calculateSubtotal(newItems);
-                const discount = calculateDiscount(subtotal, state. promoCode);
+                const discount = calculateDiscount(subtotal, state.promoCode);
                 const total = calculateTotal(subtotal, discount);
 
                 return {
-                    ... state,
+                    ...state,
                     items: newItems,
                     subtotal,
                     discount,
@@ -166,7 +166,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
                 };
             }
 
-            const newItems = state.items. map(item =>
+            const newItems = state.items.map(item =>
                 item.id === id ?  { ...item, quantity } : item
             );
 
@@ -243,7 +243,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Cargar carrito desde localStorage al iniciar (fallback local)
     useEffect(() => {
-        const savedCart = localStorage. getItem('cart');
+        const savedCart = localStorage.getItem('cart');
         if (savedCart) {
             try {
                 const parsedCart = JSON.parse(savedCart);
@@ -269,7 +269,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                 payload: { carritoId: carritoBackend.id, usuarioId }
             });
         } catch (error) {
-            console. error('Error al inicializar carrito en backend:', error);
+            console.error('Error al inicializar carrito en backend:', error);
         } finally {
             dispatch({ type: 'SET_LOADING', payload: false });
         }
@@ -298,17 +298,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Remover del carrito
     const removeFromCart = useCallback(async (id: number) => {
-        const item = cart.items. find(i => i.id === id);
+        const item = cart.items.find(i => i.id === id);
         dispatch({ type: 'REMOVE_FROM_CART', payload: id });
 
-        if (cart.carritoId && item?. itemIdBackend) {
+        if (cart.carritoId && item?.itemIdBackend) {
             try {
-                await CarritoService.eliminarItem(cart.carritoId, item. itemIdBackend);
+                await CarritoService.eliminarItem(cart.carritoId, item.itemIdBackend);
             } catch (error) {
                 console.error('Error al eliminar item del backend:', error);
             }
         }
-    }, [cart. carritoId, cart.items]);
+    }, [cart.carritoId, cart.items]);
 
     // Actualizar cantidad
     const updateQuantity = useCallback(async (id: number, quantity: number) => {
@@ -318,7 +318,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
 
     // Aplicar código promocional
     const applyPromoCode = useCallback((code: string): boolean => {
-        const upperCode = code.toUpperCase(). trim();
+        const upperCode = code.toUpperCase().trim();
         const discount = VALID_PROMO_CODES[upperCode];
 
         if (discount !== undefined) {
@@ -343,20 +343,24 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     // Generar boleta
-    const generarBoleta = useCallback(async () => {
-        if (! cart.carritoId) {
-            throw new Error('No hay carrito activo');
-        }
-        dispatch({ type: 'SET_LOADING', payload: true });
-        try {
-            const boleta = await CarritoService. generarBoleta(cart.carritoId);
-            console.log('Boleta generada:', boleta);
-            dispatch({ type: 'CLEAR_CART' });
-            return boleta;
-        } finally {
-            dispatch({ type: 'SET_LOADING', payload: false });
-        }
-    }, [cart.carritoId]);
+    const generarBoleta = useCallback(async (): Promise<Boleta> => {
+    if (!cart.carritoId) {
+        throw new Error('No hay carrito activo');
+    }
+    dispatch({ type: 'SET_LOADING', payload: true });
+    try {
+        const boleta = await CarritoService.generarBoleta(cart.carritoId);
+        console.log('Boleta generada:', boleta);
+        
+        // El pedido se creará automáticamente en el backend al generar la boleta
+        // La boleta ES el pedido en tu backend
+        
+        dispatch({ type: 'CLEAR_CART' });
+        return boleta;
+    } finally {
+        dispatch({ type: 'SET_LOADING', payload: false });
+    }
+}, [cart.carritoId]);
 
     return (
         <CartContext.Provider

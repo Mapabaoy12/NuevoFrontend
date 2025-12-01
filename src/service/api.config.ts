@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 // URLs base para cada microservicio
-const API_USUARIOS = import.meta.env. VITE_API_USUARIOS ??  'http://localhost:8180/api/v1';
-const API_CORE = import.meta. env.VITE_API_CORE ?? 'http://localhost:8080/api/v1';
-const API_CARRITO = import. meta.env. VITE_API_CARRITO ?? 'http://localhost:8280/api/v1';
+const API_USUARIOS = import.meta.env. VITE_API_USUARIOS ??  'http://localhost:8182/api/v1';
+const API_CORE = import.meta. env.VITE_API_CORE ?? 'http://localhost:8181/api/v1';
+const API_CARRITO = import. meta.env. VITE_API_CARRITO ?? 'http://localhost:8180/api/v1';
 
 // Cliente para micro-usuarios
 export const usuariosClient = axios. create({

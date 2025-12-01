@@ -37,8 +37,8 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const calcularEdad = (fechaNacimiento: string): number => {
     const hoy = new Date();
     const nacimiento = new Date(fechaNacimiento);
-    let edad = hoy. getFullYear() - nacimiento.getFullYear();
-    const mes = hoy. getMonth() - nacimiento.getMonth();
+    let edad = hoy.getFullYear() - nacimiento.getFullYear();
+    const mes = hoy.getMonth() - nacimiento.getMonth();
     if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
         edad--;
     }
@@ -47,12 +47,12 @@ const calcularEdad = (fechaNacimiento: string): number => {
 
 const esDuocEmail = (email: string): boolean => {
     const emailLower = email.toLowerCase();
-    return emailLower.endsWith('@duoc. cl') || emailLower. endsWith('@duocuc.cl');
+    return emailLower.endsWith('@duoc.cl') || emailLower.endsWith('@duocuc.cl');
 };
 
 // Mapear usuario del backend al formato del frontend
 const mapearUsuarioBackend = (backendUser: UsuarioBackend, datosExtra?: Partial<Usuario>): Usuario => {
-    const email = backendUser. email;
+    const email = backendUser.email;
     const fechaNacimiento = datosExtra?.fechaNacimiento || '';
     const edad = fechaNacimiento ? calcularEdad(fechaNacimiento) : 0;
     const esDuoc = esDuocEmail(email);
@@ -60,14 +60,14 @@ const mapearUsuarioBackend = (backendUser: UsuarioBackend, datosExtra?: Partial<
     
     return {
         id: backendUser.id,
-        nombre: `${backendUser. nombre} ${backendUser.apellido || ''}`. trim(),
+        nombre: `${backendUser.nombre} ${backendUser.apellido || ''}`.trim(),
         apellido: backendUser.apellido,
         email: backendUser.email,
         tipoUsuario: backendUser.tipoUsuario,
         telefono: datosExtra?.telefono || '',
         fechaNacimiento: fechaNacimiento,
         direccion: datosExtra?.direccion || '',
-        codigoPromocional: datosExtra?. codigoPromocional || '',
+        codigoPromocional: datosExtra?.codigoPromocional || '',
         esDuocUC: esDuoc,
         esMayorDe50: esMayorDe50,
         tieneDescuentoFelices50: datosExtra?.tieneDescuentoFelices50 || false,
@@ -98,7 +98,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
     // Guardar usuario en localStorage cuando cambie
     useEffect(() => {
         if (user) {
-            localStorage. setItem('user', JSON.stringify(user));
+            localStorage.setItem('user', JSON.stringify(user));
         } else {
             localStorage.removeItem('user');
         }
@@ -117,7 +117,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             }
 
             // Obtener datos extra guardados localmente (si existen)
-            const datosExtraGuardados = localStorage. getItem(`userData_${email}`);
+            const datosExtraGuardados = localStorage.getItem(`userData_${email}`);
             const datosExtra = datosExtraGuardados ?  JSON.parse(datosExtraGuardados) : {};
 
             const usuarioCompleto = mapearUsuarioBackend(usuarioBackend, datosExtra);
@@ -140,9 +140,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
         setError(null);
         try {
             // Crear usuario en el backend
-            const nuevoUsuario = await UsuarioService. crear({
+            const nuevoUsuario = await UsuarioService.crear({
                 nombre: userData.nombre,
-                apellido: userData. apellido,
+                apellido: userData.apellido,
                 email: userData.email,
                 contrasenia: userData.contrasenia,
                 tipoUsuario: userData.tipoUsuario || 'Cliente',
@@ -189,7 +189,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             // Guardar datos extra
             localStorage.setItem(
                 `userData_${updatedUser.email}`,
-                JSON. stringify({
+                JSON.stringify({
                     telefono: updatedUser.telefono,
                     fechaNacimiento: updatedUser.fechaNacimiento,
                     direccion: updatedUser.direccion,
