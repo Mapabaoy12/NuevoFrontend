@@ -1,5 +1,5 @@
 import { usuariosClient } from './api.config';
-import type { Usuario, UsuarioPayload, TipoUsuario } from '../interfaces/Usuario';
+import { Usuario, UsuarioPayload, TipoUsuario } from '../interfaces/Usuario';
 
 export const UsuarioService = {
   async listar(): Promise<Usuario[]> {
@@ -39,7 +39,7 @@ export const TipoUsuarioService = {
   },
 
   async crear(tipo: Omit<TipoUsuario, 'id'>): Promise<TipoUsuario> {
-    const { data } = await usuariosClient.post<TipoUsuario>('/tipos-usuario', tipo);
+    const { data } = await usuariosClient. post<TipoUsuario>('/tipos-usuario', tipo);
     return data;
   }
 };

@@ -1,25 +1,78 @@
-import { createContext, useContext, useReducer, useEffect, type ReactNode } from 'react';
-import type { CartState, CartAction, CartContextType } from '../interfaces/cartInterface';
+import { createContext, useContext, useReducer, useEffect, useCallback, type ReactNode } from 'react';
+import CarritoService, { type CarritoDTO, type ItemDTO, type Boleta } from '../service/carrito.service';
 import type { Producto } from '../data/productos';
 
-// Codigos promocionales válidos
+// Interfaces
+interface CartItem extends Producto {
+    quantity: number;
+    itemIdBackend?: number; // ID del item en el backend
+}
+
+interface PromoCode {
+    code: string;
+    discount: number;
+    isValid: boolean;
+}
+
+interface CartState {
+    carritoId: number | null; // ID del carrito en el backend
+    usuarioId: number | null;
+    items: CartItem[];
+    total: number;
+    itemCount: number;
+    promoCode: PromoCode | null;
+    subtotal: number;
+    discount: number;
+    loading: boolean;
+    synced: boolean; // Indica si está sincronizado con el backend
+}
+
+type CartAction =
+    | { type: 'SET_CARRITO_ID'; payload: { carritoId: number; usuarioId: number } }
+    | { type: 'ADD_TO_CART'; payload: CartItem }
+    | { type: 'REMOVE_FROM_CART'; payload: number }
+    | { type: 'UPDATE_QUANTITY'; payload: { id: number; quantity: number } }
+    | { type: 'APPLY_PROMO_CODE'; payload: PromoCode }
+    | { type: 'REMOVE_PROMO_CODE' }
+    | { type: 'CLEAR_CART' }
+    | { type: 'LOAD_CART'; payload: CartState }
+    | { type: 'SET_LOADING'; payload: boolean }
+    | { type: 'SYNC_FROM_BACKEND'; payload: CarritoDTO };
+
+interface CartContextType {
+    cart: CartState;
+    addToCart: (producto: Producto) => Promise<void>;
+    removeFromCart: (id: number) => Promise<void>;
+    updateQuantity: (id: number, quantity: number) => Promise<void>;
+    applyPromoCode: (code: string) => boolean;
+    removePromoCode: () => void;
+    clearCart: () => Promise<void>;
+    initializeCart: (usuarioId: number) => Promise<void>;
+    generarBoleta: () => Promise<Boleta>;
+}
+
+// Códigos promocionales válidos
 const VALID_PROMO_CODES: Record<string, number> = {
-    
-    'FELICES50': 10 
+    'FELICES50': 10,
+    'DESCUENTO20': 20,
 };
 
-// Estado inicial del carrito
+// Estado inicial
 const initialState: CartState = {
+    carritoId: null,
+    usuarioId: null,
     items: [],
     total: 0,
     itemCount: 0,
     promoCode: null,
     subtotal: 0,
     discount: 0,
+    loading: false,
+    synced: false,
 };
 
-// Funciones helper para cálculos
-const calculateSubtotal = (items: CartState['items']): number => {
+// Funciones helper
+const calculateSubtotal = (items: CartItem[]): number => {
     return items.reduce((sum, item) => sum + item.precio * item.quantity, 0);
 };
 
@@ -27,34 +80,41 @@ const calculateTotal = (subtotal: number, discount: number): number => {
     return subtotal - discount;
 };
 
-const calculateDiscount = (subtotal: number, promoCode: CartState['promoCode']): number => {
+const calculateDiscount = (subtotal: number, promoCode: PromoCode | null): number => {
     if (!promoCode || !promoCode.isValid) return 0;
     return Math.round(subtotal * (promoCode.discount / 100));
 };
 
-const calculateItemCount = (items: CartState['items']): number => {
+const calculateItemCount = (items: CartItem[]): number => {
     return items.reduce((count, item) => count + item.quantity, 0);
 };
 
-// Reducer para manejar las acciones del carrito
+// Reducer
 const cartReducer = (state: CartState, action: CartAction): CartState => {
     switch (action.type) {
-        case 'ADD_TO_CART': {
-            const existingItemIndex = state.items.findIndex(
-                item => item.id === action.payload.id
-            );
+        case 'SET_CARRITO_ID':
+            return {
+                ... state,
+                carritoId: action. payload.carritoId,
+                usuarioId: action.payload.usuarioId,
+                synced: true,
+            };
 
-            let newItems;
-            if (existingItemIndex > -1) {
-                // Si el producto ya existe, incrementar cantidad
+        case 'SET_LOADING':
+            return { ...state, loading: action.payload };
+
+        case 'ADD_TO_CART': {
+            const existingIndex = state.items. findIndex(item => item.id === action.payload.id);
+            let newItems: CartItem[];
+
+            if (existingIndex > -1) {
                 newItems = state.items.map((item, index) =>
-                    index === existingItemIndex
-                        ? { ...item, quantity: item.quantity + 1 }
+                    index === existingIndex
+                        ? { ... item, quantity: item.quantity + action.payload.quantity }
                         : item
                 );
             } else {
-                // Si es nuevo, agregarlo con cantidad 1
-                newItems = [...state.items, { ...action.payload, quantity: 1 }];
+                newItems = [...state.items, action.payload];
             }
 
             const subtotal = calculateSubtotal(newItems);
@@ -78,7 +138,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             const total = calculateTotal(subtotal, discount);
 
             return {
-                ...state,
+                ... state,
                 items: newItems,
                 subtotal,
                 discount,
@@ -89,16 +149,15 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
         case 'UPDATE_QUANTITY': {
             const { id, quantity } = action.payload;
-            
-            // Si la cantidad es 0 o menor, remover el item
+
             if (quantity <= 0) {
-                const newItems = state.items.filter(item => item.id !== id);
+                const newItems = state. items.filter(item => item.id !== id);
                 const subtotal = calculateSubtotal(newItems);
-                const discount = calculateDiscount(subtotal, state.promoCode);
+                const discount = calculateDiscount(subtotal, state. promoCode);
                 const total = calculateTotal(subtotal, discount);
 
                 return {
-                    ...state,
+                    ... state,
                     items: newItems,
                     subtotal,
                     discount,
@@ -107,9 +166,8 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
                 };
             }
 
-            // Actualizar la cantidad
-            const newItems = state.items.map(item =>
-                item.id === id ? { ...item, quantity } : item
+            const newItems = state.items. map(item =>
+                item.id === id ?  { ...item, quantity } : item
             );
 
             const subtotal = calculateSubtotal(newItems);
@@ -141,92 +199,164 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
         case 'REMOVE_PROMO_CODE': {
             const subtotal = calculateSubtotal(state.items);
-            const total = calculateTotal(subtotal, 0);
-
             return {
                 ...state,
                 promoCode: null,
                 discount: 0,
-                total,
+                total: subtotal,
             };
         }
 
         case 'CLEAR_CART':
-            return initialState;
+            return {
+                ...initialState,
+                carritoId: state.carritoId,
+                usuarioId: state.usuarioId,
+            };
 
         case 'LOAD_CART':
             return action.payload;
+
+        case 'SYNC_FROM_BACKEND': {
+            const backendCarrito = action.payload;
+            // Aquí mapearías los items del backend a tu formato local
+            return {
+                ...state,
+                carritoId: backendCarrito.id,
+                total: backendCarrito.total,
+                synced: true,
+                loading: false,
+            };
+        }
 
         default:
             return state;
     }
 };
 
-// Crear el contexto
+// Contexto
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-// Provider del carrito
+// Provider
 export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [cart, dispatch] = useReducer(cartReducer, initialState);
 
-    // Cargar el carrito desde localStorage al iniciar
+    // Cargar carrito desde localStorage al iniciar (fallback local)
     useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
+        const savedCart = localStorage. getItem('cart');
         if (savedCart) {
             try {
                 const parsedCart = JSON.parse(savedCart);
                 dispatch({ type: 'LOAD_CART', payload: parsedCart });
             } catch {
-                // Si hay error, usar carrito vacio
                 localStorage.removeItem('cart');
             }
         }
     }, []);
 
-    // Guardar el carrito en localStorage cada vez que cambie
+    // Guardar en localStorage como cache
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cart));
     }, [cart]);
 
-    // Funciones publicas del contexto
-    const addToCart = (producto: Producto) => {
-        dispatch({ type: 'ADD_TO_CART', payload: producto });
-    };
+    // Inicializar carrito en el backend
+    const initializeCart = useCallback(async (usuarioId: number) => {
+        dispatch({ type: 'SET_LOADING', payload: true });
+        try {
+            const carritoBackend = await CarritoService.crear(usuarioId);
+            dispatch({
+                type: 'SET_CARRITO_ID',
+                payload: { carritoId: carritoBackend.id, usuarioId }
+            });
+        } catch (error) {
+            console. error('Error al inicializar carrito en backend:', error);
+        } finally {
+            dispatch({ type: 'SET_LOADING', payload: false });
+        }
+    }, []);
 
-    const removeFromCart = (id: number) => {
+    // Agregar al carrito (sincronizado con backend)
+    const addToCart = useCallback(async (producto: Producto) => {
+        // Primero actualizar estado local para UX inmediata
+        const cartItem: CartItem = { ...producto, quantity: 1 };
+        dispatch({ type: 'ADD_TO_CART', payload: cartItem });
+
+        // Si hay carritoId, sincronizar con backend
+        if (cart.carritoId) {
+            try {
+                const itemDTO: ItemDTO = {
+                    productoId: producto.id,
+                    cantidad: 1,
+                };
+                await CarritoService.agregarItem(cart.carritoId, itemDTO);
+            } catch (error) {
+                console.error('Error al sincronizar con backend:', error);
+                // El item ya está en el estado local, se sincronizará después
+            }
+        }
+    }, [cart.carritoId]);
+
+    // Remover del carrito
+    const removeFromCart = useCallback(async (id: number) => {
+        const item = cart.items. find(i => i.id === id);
         dispatch({ type: 'REMOVE_FROM_CART', payload: id });
-    };
 
-    const updateQuantity = (id: number, quantity: number) => {
+        if (cart.carritoId && item?. itemIdBackend) {
+            try {
+                await CarritoService.eliminarItem(cart.carritoId, item. itemIdBackend);
+            } catch (error) {
+                console.error('Error al eliminar item del backend:', error);
+            }
+        }
+    }, [cart. carritoId, cart.items]);
+
+    // Actualizar cantidad
+    const updateQuantity = useCallback(async (id: number, quantity: number) => {
         dispatch({ type: 'UPDATE_QUANTITY', payload: { id, quantity } });
-    };
+        // Aquí podrías agregar lógica para actualizar en el backend
+    }, []);
 
-    const applyPromoCode = (code: string): boolean => {
-        const upperCode = code.toUpperCase().trim();
+    // Aplicar código promocional
+    const applyPromoCode = useCallback((code: string): boolean => {
+        const upperCode = code.toUpperCase(). trim();
         const discount = VALID_PROMO_CODES[upperCode];
 
         if (discount !== undefined) {
             dispatch({
                 type: 'APPLY_PROMO_CODE',
-                payload: {
-                    code: upperCode,
-                    discount,
-                    isValid: true,
-                },
+                payload: { code: upperCode, discount, isValid: true },
             });
             return true;
         }
-
         return false;
-    };
+    }, []);
 
-    const removePromoCode = () => {
+    // Remover código promocional
+    const removePromoCode = useCallback(() => {
         dispatch({ type: 'REMOVE_PROMO_CODE' });
-    };
+    }, []);
 
-    const clearCart = () => {
+    // Limpiar carrito
+    const clearCart = useCallback(async () => {
         dispatch({ type: 'CLEAR_CART' });
-    };
+        // Aquí podrías crear un nuevo carrito en el backend si es necesario
+    }, []);
+
+    // Generar boleta
+    const generarBoleta = useCallback(async () => {
+        if (! cart.carritoId) {
+            throw new Error('No hay carrito activo');
+        }
+        dispatch({ type: 'SET_LOADING', payload: true });
+        try {
+            const boleta = await CarritoService. generarBoleta(cart.carritoId);
+            console.log('Boleta generada:', boleta);
+            dispatch({ type: 'CLEAR_CART' });
+            return boleta;
+        } finally {
+            dispatch({ type: 'SET_LOADING', payload: false });
+        }
+    }, [cart.carritoId]);
 
     return (
         <CartContext.Provider
@@ -238,6 +368,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
                 applyPromoCode,
                 removePromoCode,
                 clearCart,
+                initializeCart,
+                generarBoleta,
             }}
         >
             {children}
@@ -245,7 +377,6 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
 };
 
-// Hook personalizado para usar el carrito
 export const useCart = () => {
     const context = useContext(CartContext);
     if (!context) {

@@ -21,7 +21,7 @@ export const useCarrito = (): UseCarritoState => {
   const crearCarrito = useCallback(async (usuarioId: number) => {
     setLoading(true);
     try {
-      const nuevoCarrito = await CarritoService.crear(usuarioId);
+      const nuevoCarrito = await CarritoService. crear(usuarioId);
       setCarrito(nuevoCarrito);
       return nuevoCarrito;
     } catch (err) {
@@ -38,7 +38,7 @@ export const useCarrito = (): UseCarritoState => {
       const data = await CarritoService.obtener(carritoId);
       setCarrito(data);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Error al cargar carrito'));
+      setError(err instanceof Error ?  err : new Error('Error al cargar carrito'));
     } finally {
       setLoading(false);
     }
@@ -55,7 +55,7 @@ export const useCarrito = (): UseCarritoState => {
   }, []);
 
   const eliminarItem = useCallback(async (carritoId: number, itemId: number) => {
-    await CarritoService.eliminarItem(carritoId, itemId);
+    await CarritoService. eliminarItem(carritoId, itemId);
     await cargarCarrito(carritoId);
   }, [cargarCarrito]);
 

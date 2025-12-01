@@ -1,5 +1,4 @@
 import { coreClient } from './api.config';
-import type { Producto, ProductoPayload, Categoria, CategoriaPayload } from '../interfaces/Producto';
 
 // Interface que coincide con tu backend (ProductoDTO)
 export interface ProductoBackend {
@@ -27,61 +26,46 @@ export interface ProductoFrontend {
   stock?: number;
 }
 
+// Función para mapear backend -> frontend
+const mapearProducto = (p: ProductoBackend): ProductoFrontend => ({
+  id: p.id,
+  titulo: p.nombre,
+  imagen: p. imagen || '/img/default-cake.jpg',
+  forma: p.categoria?. nombre || 'Circulares',
+  tamanio: 'Grande', // Puedes agregar este campo en tu backend si lo necesitas
+  precio: p.precio,
+  descripcion: p.descripcion,
+  stock: p.stock
+});
 
 export const ProductoService = {
-  async listar(): Promise<Producto[]> {
-    const { data } = await coreClient.get<Producto[]>('/productos');
-    return Array.isArray(data) ? data : [];
+  async listar(): Promise<ProductoFrontend[]> {
+    const { data } = await coreClient.get<ProductoBackend[]>('/productos');
+    return data.map(mapearProducto);
   },
 
-  async obtener(id: number): Promise<Producto> {
-    const { data } = await coreClient.get<Producto>(`/productos/${id}`);
-    return data;
+  async obtener(id: number): Promise<ProductoFrontend> {
+    const { data } = await coreClient.get<ProductoBackend>(`/productos/${id}`);
+    return mapearProducto(data);
   },
 
-  async listarPorCategoria(nombreCategoria: string): Promise<Producto[]> {
-    const { data } = await coreClient.get<Producto[]>(`/productos/categoria/${nombreCategoria}`);
-    return data;
+  async listarPorCategoria(nombreCategoria: string): Promise<ProductoFrontend[]> {
+    const { data } = await coreClient.get<ProductoBackend[]>(`/productos/categoria/${nombreCategoria}`);
+    return data.map(mapearProducto);
   },
 
-  async crear(producto: ProductoPayload): Promise<Producto> {
-    const { data } = await coreClient.post<Producto>('/productos', producto);
-    return data;
+  async crear(producto: Omit<ProductoBackend, 'id'>): Promise<ProductoFrontend> {
+    const { data } = await coreClient.post<ProductoBackend>('/productos', producto);
+    return mapearProducto(data);
   },
 
-  async actualizar(id: number, producto: ProductoPayload): Promise<Producto> {
-    const { data } = await coreClient.put<Producto>(`/productos/${id}`, producto);
-    return data;
+  async actualizar(id: number, producto: Partial<ProductoBackend>): Promise<ProductoFrontend> {
+    const { data } = await coreClient.put<ProductoBackend>(`/productos/${id}`, producto);
+    return mapearProducto(data);
   },
 
   async eliminar(id: number): Promise<void> {
     await coreClient.delete(`/productos/${id}`);
-  }
-};
-
-export const CategoriaService = {
-  async listar(): Promise<Categoria[]> {
-    const { data } = await coreClient.get<Categoria[]>('/categorias');
-    return data;
-  },
-
-  async obtener(id: number): Promise<Categoria> {
-    const { data } = await coreClient.get<Categoria>(`/categorias/${id}`);
-    return data;
-  },
-
-  async crear(categoria: CategoriaPayload): Promise<Categoria> {
-    const { data } = await coreClient.post<Categoria>('/categorias', categoria);
-    return data;
-  },
-
-  async actualizar(id: number, categoria: CategoriaPayload): Promise<Categoria> {
-    const { data } = await coreClient.put<Categoria>(`/categorias/${id}`, categoria);
-    return data;
-  },
-
-  async eliminar(id: number): Promise<void> {
-    await coreClient.delete(`/categorias/${id}`);
   }
 };
 

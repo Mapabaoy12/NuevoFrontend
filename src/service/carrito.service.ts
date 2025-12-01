@@ -1,5 +1,5 @@
 import { carritoClient } from './api.config';
-import type { Carrito, ItemCarrito, Boleta } from '../interfaces/Carrito';
+import { Carrito, ItemCarrito, Boleta } from '../interfaces/Carrito';
 
 export const CarritoService = {
   async crear(usuarioId: number): Promise<Carrito> {
@@ -22,7 +22,7 @@ export const CarritoService = {
   },
 
   async generarBoleta(carritoId: number): Promise<Boleta> {
-    const { data } = await carritoClient.post<Boleta>(`/boletas/generar/${carritoId}`);
+    const { data } = await carritoClient. post<Boleta>(`/boletas/generar/${carritoId}`);
     return data;
   }
 };

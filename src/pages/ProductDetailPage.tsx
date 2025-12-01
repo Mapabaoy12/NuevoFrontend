@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { productos, type Producto } from "../data/productos";
+import ProductoService, { type ProductoFrontend} from "../service/producto.service";
 import { ProductImage } from "../components/product/ProductImage";
 import { ProductInfo } from "../components/product/ProductInfo";
 import { ProductActions } from "../components/product/ProductActions";
@@ -9,14 +9,34 @@ import { HiArrowLeft } from "react-icons/hi";
 
 export const ProductDetailPage = () => {
     const { id } = useParams();
-    const [producto, setProducto] = useState<Producto | null>(null);
+    const [producto, setProducto] = useState<ProductoFrontend | null>(null);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const foundProducto = productos.find(p => p.id === Number(id));
-        if (foundProducto) {
-            setProducto(foundProducto);
+        const cargarProducto = async () => {
+            try {
+                const data = await ProductoService.obtener(Number(id));
+                setProducto(data);
+            } catch (error) {
+                console.error('Error al cargar producto:', error);
+                setProducto(null);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        if (id) {
+            void cargarProducto();
         }
     }, [id]);
+
+    if (loading) {
+        return (
+            <div className="flex justify-center items-center min-h-[400px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-500"></div>
+            </div>
+        );
+    }
 
     if (!producto) {
         return <ProductNotFound />;
@@ -33,11 +53,7 @@ export const ProductDetailPage = () => {
             </Link>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
-                <ProductImage 
-                    imagen={producto.imagen} 
-                    titulo={producto.titulo} 
-                />
-
+                <ProductImage imagen={producto.imagen} titulo={producto.titulo} />
                 <div className="space-y-6">
                     <ProductInfo producto={producto} />
                     <ProductActions producto={producto} />

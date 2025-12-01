@@ -1,21 +1,25 @@
 import { useCallback, useEffect, useState } from 'react';
-import UsuarioService, { TipoUsuarioService } from '../service/usuariosService';
-import type { Usuario, UsuarioPayload, TipoUsuario } from '../interfaces/Usuario';
+import UsuarioService, { 
+  type UsuarioBackend, 
+  type RegistroPayload,
+  type LoginPayload 
+} from '../service/usuariosService';
 
 interface UseUsuariosState {
-  usuarios: Usuario[];
+  usuarios: UsuarioBackend[];
   loading: boolean;
-  error: Error | null;
+  error: string | null;
   recargar: () => Promise<void>;
-  crear: (usuario: UsuarioPayload) => Promise<Usuario>;
-  actualizar: (id: number, usuario: UsuarioPayload) => Promise<Usuario>;
+  registrar: (usuario: RegistroPayload) => Promise<UsuarioBackend>;
+  login: (payload: LoginPayload) => Promise<UsuarioBackend | null>;
+  actualizar: (id: number, usuario: Partial<UsuarioBackend>) => Promise<UsuarioBackend>;
   eliminar: (id: number) => Promise<void>;
 }
 
 export const useUsuarios = (): UseUsuariosState => {
-  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
+  const [usuarios, setUsuarios] = useState<UsuarioBackend[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const cargarUsuarios = useCallback(async () => {
     setLoading(true);
@@ -24,20 +28,41 @@ export const useUsuarios = (): UseUsuariosState => {
       const data = await UsuarioService.listar();
       setUsuarios(data);
     } catch (err) {
-      const parsedError = err instanceof Error ? err : new Error('Error desconocido al cargar usuarios');
-      setError(parsedError);
+      console.error('Error al cargar usuarios:', err);
+      setError('Error al cargar usuarios del servidor');
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const crear = useCallback(async (usuario: UsuarioPayload): Promise<Usuario> => {
-    const nuevoUsuario = await UsuarioService.crear(usuario);
-    await cargarUsuarios();
-    return nuevoUsuario;
+  const registrar = useCallback(async (usuario: RegistroPayload): Promise<UsuarioBackend> => {
+    setLoading(true);
+    try {
+      const nuevoUsuario = await UsuarioService. crear(usuario);
+      await cargarUsuarios();
+      return nuevoUsuario;
+    } catch (err) {
+      console.error('Error al registrar usuario:', err);
+      throw new Error('Error al registrar usuario');
+    } finally {
+      setLoading(false);
+    }
   }, [cargarUsuarios]);
 
-  const actualizar = useCallback(async (id: number, usuario: UsuarioPayload): Promise<Usuario> => {
+  const login = useCallback(async (payload: LoginPayload): Promise<UsuarioBackend | null> => {
+    setLoading(true);
+    try {
+      const usuario = await UsuarioService.login(payload);
+      return usuario;
+    } catch (err) {
+      console.error('Error en login:', err);
+      return null;
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  const actualizar = useCallback(async (id: number, usuario: Partial<UsuarioBackend>): Promise<UsuarioBackend> => {
     const usuarioActualizado = await UsuarioService.actualizar(id, usuario);
     await cargarUsuarios();
     return usuarioActualizado;
@@ -52,35 +77,7 @@ export const useUsuarios = (): UseUsuariosState => {
     void cargarUsuarios();
   }, [cargarUsuarios]);
 
-  return {
-    usuarios,
-    loading,
-    error,
-    recargar: cargarUsuarios,
-    crear,
-    actualizar,
-    eliminar
-  };
-};
-
-export const useTiposUsuario = () => {
-  const [tipos, setTipos] = useState<TipoUsuario[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const cargar = async () => {
-      setLoading(true);
-      try {
-        const data = await TipoUsuarioService.listar();
-        setTipos(data);
-      } finally {
-        setLoading(false);
-      }
-    };
-    void cargar();
-  }, []);
-
-  return { tipos, loading };
+  return { usuarios, loading, error, recargar: cargarUsuarios, registrar, login, actualizar, eliminar };
 };
 
 export default useUsuarios;
